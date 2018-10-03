@@ -1,9 +1,7 @@
 package ray7.com.ray7.data.services.responses
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import ray7.com.ray7.data.services.Articles
-import ray7.com.ray7.data.services.Source
+import ray7.com.ray7.data.models.Articles
 import java.io.Serializable
 
 open class GetNewsResponse(

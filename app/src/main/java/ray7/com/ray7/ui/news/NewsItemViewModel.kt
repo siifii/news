@@ -1,21 +1,38 @@
 package ray7.com.ray7.ui.news
 
-import androidx.lifecycle.ViewModel
-import ray7.com.ray7.data.services.Articles
+import androidx.lifecycle.MutableLiveData
+import ray7.com.ray7.data.models.Articles
+import ray7.com.ray7.ui.components.Activities.BaseViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewsItemViewModel(private val articles: Articles) : ViewModel() {
+class NewsItemViewModel : BaseViewModel() {
+    private val newsName = MutableLiveData<String>()
+    private val newsTime = MutableLiveData<String>()
+    private val newsImageURl = MutableLiveData<String>()
 
-    fun getNewsName() = articles.source.newsName
-    fun getNewsTime(): String {
+
+    fun bind(articles: Articles) {
+
         val outputFormat = SimpleDateFormat("EEEE dd MMM yyyy", Locale.getDefault())
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
         val inputText = articles.time
         val date = inputFormat.parse(inputText)
-        return outputFormat.format(date)
+
+        newsTime.value = outputFormat.format(date)
+        newsName.value = articles.source.newsName
+        newsImageURl.value = articles.newsImageUrl
     }
 
-    fun getNewsImage() = articles.newsImageUrl
+    fun getNewsName(): MutableLiveData<String> {
+        return newsName
+    }
 
+    fun getNewsTime(): MutableLiveData<String> {
+        return newsTime
+    }
+
+    fun getNewsImage(): MutableLiveData<String> {
+        return newsImageURl
+    }
 }

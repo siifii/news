@@ -1,8 +1,10 @@
-package ray7.com.ray7.data.services
+package ray7.com.ray7.data.models
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-class Articles(
+@Entity
+data class Articles(
         @SerializedName("url") var newsUrl: String? = null,
         @SerializedName("urlToImage") var newsImageUrl: String? = null,
         @SerializedName("publishedAt") var time: String? = null,

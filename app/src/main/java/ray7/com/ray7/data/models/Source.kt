@@ -1,8 +1,8 @@
-package ray7.com.ray7.data.services
+package ray7.com.ray7.data.models
 
 import com.google.gson.annotations.SerializedName
 
-class Source (
+class Source(
         @SerializedName("name") var newsName: String? = null
 )
 
