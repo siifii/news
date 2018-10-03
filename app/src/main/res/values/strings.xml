@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="news_cover">The news front image</string>
+    <string name="there_is_no_data">There is no data.</string>
+
+    <string name="retry">Retry</string>
+    <string name="internet_error">Please, Check Internet Connection</string>
+    <string name="unable_to_get_new">Unable to get news data.</string>
+
+</resources>
