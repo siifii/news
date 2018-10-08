@@ -6,6 +6,7 @@ import ray7.com.ray7.ui.components.Activities.BaseViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class NewsItemViewModel : BaseViewModel() {
     private val newsName = MutableLiveData<String>()
     private val newsTime = MutableLiveData<String>()

@@ -1,19 +1,18 @@
 package ray7.com.ray7.ui.news
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import ray7.com.ray7.R
-import ray7.com.ray7.data.local.room.ArticlesDao
-import ray7.com.ray7.data.models.Articles
 import ray7.com.ray7.data.services.NewsService
+import ray7.com.ray7.data.services.responses.GetNewsResponse
 import ray7.com.ray7.ui.components.Activities.BaseViewModel
 import javax.inject.Inject
 
-class NewsViewModel(private val newsDao: ArticlesDao) : BaseViewModel() {
+class NewsViewModel() : BaseViewModel() {
     @Inject
     lateinit var newsService: NewsService
     val newsAdapter: NewsAdapter = NewsAdapter()
@@ -33,25 +32,39 @@ class NewsViewModel(private val newsDao: ArticlesDao) : BaseViewModel() {
         subscription.dispose()
     }
 
+    //    private fun loadNews() {
+//        subscription = Observable.fromCallable { newsDao.all }
+//                .concatMap { dbNewsList ->
+//                    if (dbNewsList.isEmpty())
+//                        newsService.getNewss().concatMap { apiNewsList ->
+//                            newsDao.insertAll(*apiNewsList.toTypedArray())
+//                            Observable.just(apiNewsList)
+//                        }
+//                    else
+//                        Observable.just(dbNewsList)
+//                }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe { onRetrievePostListStart() }
+//                .doOnTerminate { onRetrievePostListFinish() }
+//                .subscribe(
+//                        { result -> onRetrievePostListSuccess(result) },
+//                        { onRetrievePostListError() }
+//                )
+//    }
+
     private fun loadNews() {
-        subscription = Observable.fromCallable { newsDao.all }
-                .concatMap { dbNewsList ->
-                    if (dbNewsList.isEmpty())
-                        newsService.getNewss().concatMap { apiNewsList ->
-                            newsDao.insertAll(*apiNewsList.toTypedArray())
-                            Observable.just(apiNewsList)
-                        }
-                    else
-                        Observable.just(dbNewsList)
-                }
+        newsService.getNewss()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { onRetrievePostListStart() }
                 .doOnTerminate { onRetrievePostListFinish() }
                 .subscribe(
                         { result -> onRetrievePostListSuccess(result) },
-                        { onRetrievePostListError() }
-                )
+                        { t ->
+                            onRetrievePostListError()
+                            Log.d("error massage", t.toString())
+                        })
     }
 
     private fun onRetrievePostListStart() {
@@ -63,8 +76,8 @@ class NewsViewModel(private val newsDao: ArticlesDao) : BaseViewModel() {
         loadingVisibility.value = View.GONE
     }
 
-    private fun onRetrievePostListSuccess(articleList: List<Articles>) {
-        newsAdapter.addServices(articleList)
+    private fun onRetrievePostListSuccess(getNewsResponse: GetNewsResponse) {
+        newsAdapter.addServices(getNewsResponse.articles)
     }
 
     private fun onRetrievePostListError() {
