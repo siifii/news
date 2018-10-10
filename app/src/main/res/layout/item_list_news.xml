@@ -7,7 +7,7 @@
 
         <variable
             name="newsVM"
-            type="ray7.com.ray7.ui.news.NewsItemViewModel" />
+            type="com.news.ui.news.NewsItemViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -7,14 +7,14 @@
 
         <variable
             name="newsViewModel"
-            type="ray7.com.ray7.ui.news.NewsViewModel" />
+            type="com.news.ui.news.NewsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.news.NewsFragment">
+        tools:context="com.news.ui.news.NewsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_news"

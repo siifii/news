@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ray7.com.ray7"
+        applicationId "com.ray7"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
