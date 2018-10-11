@@ -1,6 +1,5 @@
 package com.news.ui.news
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.news.R
@@ -21,12 +20,12 @@ class NewsViewModel(private val newsDoa: NewsDao) : BaseViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadNewss() }
+    val errorClickListener = View.OnClickListener { loadNews() }
 
     private lateinit var subscription: Disposable
 
     init {
-        loadNewss()
+        loadNews()
     }
 
     override fun onCleared() {
@@ -34,11 +33,11 @@ class NewsViewModel(private val newsDoa: NewsDao) : BaseViewModel() {
         subscription.dispose()
     }
 
-    private fun loadNewss() {
+    private fun loadNews() {
         subscription = Observable.fromCallable { newsDoa.all }
                 .concatMap { dbNewsList ->
                     if (dbNewsList.isEmpty())
-                        newsService.getNewss().concatMap { apiNewsList ->
+                        newsService.getNews().concatMap { apiNewsList ->
                             newsDoa.insertAll(*apiNewsList.articles.toTypedArray())
                             Observable.just(apiNewsList.articles)
                         }
@@ -53,20 +52,6 @@ class NewsViewModel(private val newsDoa: NewsDao) : BaseViewModel() {
                         { result -> onRetrievePostListSuccess(result) },
                         { onRetrievePostListError() }
                 )
-    }
-
-    private fun loadNews() {
-        newsService.getNewss()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { onRetrievePostListStart() }
-                .doOnTerminate { onRetrievePostListFinish() }
-                .subscribe(
-                        { result -> onRetrievePostListSuccess(result.articles) },
-                        { t ->
-                            onRetrievePostListError()
-                            Log.d("error massage", t.toString())
-                        })
     }
 
     private fun onRetrievePostListStart() {
