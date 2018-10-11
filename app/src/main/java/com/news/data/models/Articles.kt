@@ -1,8 +1,9 @@
 package com.news.data.models
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-//@Entity(tableName = "articles")
+@Entity(tableName = "articles")
 data class Articles(
         @SerializedName("url") var newsUrl: String? = null,
         @SerializedName("urlToImage") var newsImageUrl: String? = null,

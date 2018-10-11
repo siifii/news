@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.news.data.models.Articles
-import news.ray7.databinding.ItemListNewsBinding
+import com.news.databinding.ItemListNewsBinding
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsHolder>() {
     private lateinit var list: List<Articles>

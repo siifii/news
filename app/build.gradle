@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.ray7"
+        applicationId "com.news"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -37,8 +37,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 
     // Android support
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -72,7 +72,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
     // Dagger2
     implementation "com.google.dagger:dagger:$daggerVersion"

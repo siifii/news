@@ -9,8 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import news.ray7.R
-import news.ray7.databinding.NewsFragmentBinding
+import com.news.R
+import com.news.databinding.NewsFragmentBinding
+import com.news.di.ViewModelFactory
 
 class NewsFragment : androidx.fragment.app.Fragment() {
 
@@ -33,7 +34,7 @@ class NewsFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this,ViewModelFactory(this)).get(NewsViewModel::class.java)
         viewModel.errorMessage.observe(this, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
         })

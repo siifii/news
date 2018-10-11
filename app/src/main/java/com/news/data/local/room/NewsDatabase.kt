@@ -7,5 +7,5 @@ import com.news.data.models.Articles
 
 @Database(entities = [Articles::class], version = 1)
 abstract class NewsDatabase : RoomDatabase() {
-//    abstract fun articleDao(): ArticlesDao
+    abstract fun newsDoa(): NewsDao
 }

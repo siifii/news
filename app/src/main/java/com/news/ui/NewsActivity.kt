@@ -2,7 +2,7 @@ package com.news.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import news.ray7.R
+import com.news.R
 import com.news.ui.news.NewsFragment
 
 class NewsActivity : AppCompatActivity() {

@@ -3,28 +3,30 @@ package com.news.ui.news
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.news.R
+import com.news.data.local.room.NewsDao
+import com.news.data.models.Articles
+import com.news.data.services.NewsService
+import com.news.ui.components.activity.BaseViewModel
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import news.ray7.R
-import com.news.data.services.NewsService
-import com.news.data.services.responses.GetNewsResponse
-import com.news.ui.components.activity.BaseViewModel
 import javax.inject.Inject
 
-class NewsViewModel : BaseViewModel() {
+class NewsViewModel(private val newsDoa: NewsDao) : BaseViewModel() {
     @Inject
     lateinit var newsService: NewsService
     val newsAdapter: NewsAdapter = NewsAdapter()
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadNews() }
+    val errorClickListener = View.OnClickListener { loadNewss() }
 
     private lateinit var subscription: Disposable
 
     init {
-        loadNews()
+        loadNewss()
     }
 
     override fun onCleared() {
@@ -32,26 +34,26 @@ class NewsViewModel : BaseViewModel() {
         subscription.dispose()
     }
 
-    //    private fun loadNews() {
-//        subscription = Observable.fromCallable { newsDao.all }
-//                .concatMap { dbNewsList ->
-//                    if (dbNewsList.isEmpty())
-//                        newsService.getNewss().concatMap { apiNewsList ->
-//                            newsDao.insertAll(*apiNewsList.toTypedArray())
-//                            Observable.just(apiNewsList)
-//                        }
-//                    else
-//                        Observable.just(dbNewsList)
-//                }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe { onRetrievePostListStart() }
-//                .doOnTerminate { onRetrievePostListFinish() }
-//                .subscribe(
-//                        { result -> onRetrievePostListSuccess(result) },
-//                        { onRetrievePostListError() }
-//                )
-//    }
+    private fun loadNewss() {
+        subscription = Observable.fromCallable { newsDoa.all }
+                .concatMap { dbNewsList ->
+                    if (dbNewsList.isEmpty())
+                        newsService.getNewss().concatMap { apiNewsList ->
+                            newsDoa.insertAll(*apiNewsList.articles.toTypedArray())
+                            Observable.just(apiNewsList.articles)
+                        }
+                    else
+                        Observable.just(dbNewsList)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onRetrievePostListStart() }
+                .doOnTerminate { onRetrievePostListFinish() }
+                .subscribe(
+                        { result -> onRetrievePostListSuccess(result) },
+                        { onRetrievePostListError() }
+                )
+    }
 
     private fun loadNews() {
         newsService.getNewss()
@@ -60,7 +62,7 @@ class NewsViewModel : BaseViewModel() {
                 .doOnSubscribe { onRetrievePostListStart() }
                 .doOnTerminate { onRetrievePostListFinish() }
                 .subscribe(
-                        { result -> onRetrievePostListSuccess(result) },
+                        { result -> onRetrievePostListSuccess(result.articles) },
                         { t ->
                             onRetrievePostListError()
                             Log.d("error massage", t.toString())
@@ -76,8 +78,8 @@ class NewsViewModel : BaseViewModel() {
         loadingVisibility.value = View.GONE
     }
 
-    private fun onRetrievePostListSuccess(getNewsResponse: GetNewsResponse) {
-        newsAdapter.addServices(getNewsResponse.articles)
+    private fun onRetrievePostListSuccess(newsList: List<Articles>) {
+        newsAdapter.addServices(newsList)
     }
 
     private fun onRetrievePostListError() {
