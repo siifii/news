@@ -21,7 +21,7 @@ class NewsItemViewModel : BaseViewModel() {
         val date = inputFormat.parse(inputText)
 
         newsTime.value = outputFormat.format(date)
-        newsName.value = articles.source.newsName
+//        newsName.value = articles.source.newsName
         newsImageURl.value = articles.newsImageUrl
     }
 

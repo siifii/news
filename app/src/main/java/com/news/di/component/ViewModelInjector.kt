@@ -15,6 +15,7 @@ interface ViewModelInjector {
      * Injects required dependencies into the specified NewsItemViewModel.
      * @param NewsItemViewModel NewsItemViewModel in which to inject the dependencies
      */
+
     fun inject(NewsViewModel: NewsViewModel)
 
     @Component.Builder

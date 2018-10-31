@@ -16,7 +16,6 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 @Module
 // Safe here as we are dealing with a Dagger 2 module
-@Suppress("unused")
 object NetworkModule {
     /**
      * Provides the Post service implementation.

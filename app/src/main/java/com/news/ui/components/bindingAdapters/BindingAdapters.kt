@@ -2,7 +2,6 @@ package com.news.ui.components.bindingAdapters
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -29,10 +28,3 @@ fun loadImage(view: ImageView, url: String) {
     Glide.with(view.context).load(url).into(view)
 }
 
-@BindingAdapter("mutableText")
-fun setMutableText(view: TextView, text: MutableLiveData<String>?) {
-    val parentActivity: AppCompatActivity? = view.getParentActivity()
-    if (parentActivity != null && text != null) {
-        text.observe(parentActivity, Observer { value -> view.text = value ?: "" })
-    }
-}
